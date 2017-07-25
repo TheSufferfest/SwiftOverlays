@@ -307,7 +307,8 @@ open class SwiftOverlays: NSObject {
         
         return containerView
     }
-    
+
+    @discardableResult
     open class func showCenteredWaitOverlayWithText(_ parentView: UIView, text: String) -> UIView  {
         return showCenteredWaitOverlayWithText(parentView, text: text, fontSize: 14.0)
     }
@@ -333,16 +334,17 @@ open class SwiftOverlays: NSObject {
       let button = UIButton(frame: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
       button.setImage(image, for: .normal)
       button.setImage(image, for: .selected)
-      showGenericOverlay(parentView, text, button, horizontalLayout, showTextFirst)
+      showGenericOverlay(parentView, text: text, accessoryView: button, horizontalLayout: horizontalLayout, showTextFirst: showTextFirst)
       return button
    }
 
-    open class func showGenericOverlay(_ parentView: UIView, text: String, accessoryView: UIView, horizontalLayout: Bool = true) -> UIView {
-        return showGenericOverlay(parentView, text: text, fontSize: 14.0, accessoryView: accessoryView)
-    }
+   @discardableResult
+   open class func showGenericOverlay(_ parentView: UIView, text: String, accessoryView: UIView, horizontalLayout: Bool = true, showTextFirst: Bool = false) -> UIView {
+      return showGenericOverlay(parentView, text: text, fontSize: 14.0, accessoryView: accessoryView)
+   }
 
    @discardableResult
-   open class func showGenericOverlay(_ parentView: UIView, _ text: String, _ fontSize: CGFloat, _ accessoryView: UIView, _ horizontalLayout: Bool = true, _ showTextFirst: Bool = false) -> UIView {
+   open class func showGenericOverlay(_ parentView: UIView, text: String, fontSize: CGFloat, accessoryView: UIView, horizontalLayout: Bool = true, showTextFirst: Bool = false) -> UIView {
 
       // Get a full setted label
       let label = labelForText(text)
@@ -412,7 +414,8 @@ open class SwiftOverlays: NSObject {
       
       return containerView
    }
-    
+
+    @discardableResult
     open class func showTextOverlay(_ parentView: UIView, text: String) -> UIView  {
         return showTextOverlay(parentView, text: text, fontSize: 14.0)
     }
