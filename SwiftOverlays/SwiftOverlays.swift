@@ -374,7 +374,8 @@ open class SwiftOverlays: NSObject {
             accessoryView.frame = accessoryView.frame.offsetBy(dx: padding, dy: (parentHeight - accHeight)/2)
          }
 
-      } else { // Vertical
+      // Vertical Layout
+      } else {
 
          // Calculates parent size
          contentSize = CGSize(width: max(accWidth, labelWidth) + (padding * 2),
