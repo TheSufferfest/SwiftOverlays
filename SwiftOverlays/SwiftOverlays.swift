@@ -340,7 +340,7 @@ open class SwiftOverlays: NSObject {
 
    @discardableResult
    open class func showGenericOverlay(_ parentView: UIView, text: String, accessoryView: UIView, horizontalLayout: Bool = true, showTextFirst: Bool = false) -> UIView {
-      return showGenericOverlay(parentView, text: text, fontSize: 14.0, accessoryView: accessoryView)
+      return showGenericOverlay(parentView, text: text, fontSize: 14.0, accessoryView: accessoryView, horizontalLayout: horizontalLayout, showTextFirst: showTextFirst)
    }
 
    @discardableResult
