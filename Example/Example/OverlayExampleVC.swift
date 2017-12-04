@@ -50,7 +50,7 @@ class OverlayExampleVC: UIViewController {
     }
     
     // MARK: begin/end
-    func begin() {
+    @objc func begin() {
         switch (type) {
         case .Wait:
             self.showWaitOverlay()
@@ -84,9 +84,8 @@ class OverlayExampleVC: UIViewController {
             
         case .AnnoyingNotification:
             Bundle.main.loadNibNamed("AnnoyingNotification", owner: self, options: nil)
-            annoyingNotificationView!.frame.size.width = self.view.bounds.width;
             
-            UIViewController.showNotificationOnTopOfStatusBar(annoyingNotificationView!, duration: 5)
+            UIViewController.showOnTopOfStatusBar(annoyingNotificationView!, duration: 5)
             // Or SwiftOverlays.showAnnoyingNotificationOnTopOfStatusBar(annoyingNotificationView!, duration: 5)
             
             return
@@ -105,7 +104,7 @@ class OverlayExampleVC: UIViewController {
         endTimer = Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(end), userInfo: nil, repeats: false)
     }
     
-    func end() {
+    @objc func end() {
         switch (type) {
         case .Wait, .WaitWithText, .TextOnly, .ImageAndText:
             SwiftOverlays.removeAllOverlaysFromView(self.view)
