@@ -600,12 +600,6 @@ open class SwiftOverlays: NSObject {
     
     fileprivate class func labelForText(_ text: String, withFontSize size: CGFloat) -> UILabel {
         let font = UIFont.systemFont(ofSize: size)
-        let textSize = text.size(attributes: [NSFontAttributeName: font])
-        
-        let labelRect = CGRect(x: 0,
-        y: 0,
-        width: textSize.width,
-        height: textSize.height)
 
         let textSize = text.size(withAttributes: [NSAttributedStringKey.font: font])
         
