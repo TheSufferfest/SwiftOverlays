@@ -334,7 +334,7 @@ open class SwiftOverlays: NSObject {
     
         return showGenericOverlay(parentView, text: text, accessoryView: imageView)
     }
-    
+
     @discardableResult
     open class func showButtonAndTextOverlay(_ parentView: UIView, _ image: UIImage, _ text: String, _ horizontalLayout: Bool = true, _ showTextFirst: Bool = false) -> UIButton {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
@@ -342,6 +342,48 @@ open class SwiftOverlays: NSObject {
         button.setImage(image, for: .selected)
         showGenericOverlay(parentView, text: text, accessoryView: button, horizontalLayout: horizontalLayout, showTextFirst: showTextFirst)
         return button
+    }
+
+    open class func showGenericOverlay(_ parentView: UIView, text: String, accessoryView: UIView, horizontalLayout: Bool = true) -> UIView {
+        let label = labelForText(text)
+        var actualSize = CGSize.zero
+        
+        if horizontalLayout {
+            actualSize = CGSize(width: accessoryView.frame.size.width + label.frame.size.width + padding * 3,
+                height: max(label.frame.size.height, accessoryView.frame.size.height) + padding * 2)
+            
+            label.frame = label.frame.offsetBy(dx: accessoryView.frame.size.width + padding * 2, dy: padding)
+            
+            accessoryView.frame = accessoryView.frame.offsetBy(dx: padding, dy: (actualSize.height - accessoryView.frame.size.height)/2)
+        } else {
+            actualSize = CGSize(width: max(accessoryView.frame.size.width, label.frame.size.width) + padding * 2,
+                height: label.frame.size.height + accessoryView.frame.size.height + padding * 3)
+            
+            label.frame = label.frame.offsetBy(dx: padding, dy: accessoryView.frame.size.height + padding * 2)
+            
+            accessoryView.frame = accessoryView.frame.offsetBy(dx: (actualSize.width - accessoryView.frame.size.width)/2, dy: padding)
+        }
+        
+        // Container view
+        let containerViewRect = CGRect(origin: .zero, size: actualSize)
+        let containerView = UIView(frame: containerViewRect)
+     
+        containerView.tag = containerViewTag
+        containerView.layer.cornerRadius = cornerRadius
+        containerView.backgroundColor = backgroundColor
+        containerView.center = CGPoint(
+            x: parentView.bounds.size.width/2,
+            y: parentView.bounds.size.height/2
+        )
+        
+        containerView.addSubview(accessoryView)
+        containerView.addSubview(label)
+        
+        parentView.addSubview(containerView)
+        
+        Utils.centerViewInSuperview(containerView)
+
+        return containerView
     }
     
     @discardableResult
@@ -564,11 +606,15 @@ open class SwiftOverlays: NSObject {
         y: 0,
         width: textSize.width,
         height: textSize.height)
+
+        let textSize = text.size(withAttributes: [NSAttributedStringKey.font: font])
         
+        let labelRect = CGRect(origin: .zero, size: textSize)
+
         let label = UILabel(frame: labelRect)
         label.font = font
         label.textColor = textColor
-        label.text = text as String
+        label.text = text
         label.numberOfLines = 0
         
         return label
