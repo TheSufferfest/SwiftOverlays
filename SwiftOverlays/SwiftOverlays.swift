@@ -171,39 +171,47 @@ open class SwiftOverlays: NSObject {
         
             - parameter innerView: View to set constraints on
         */
-        open static func centerViewInSuperview(_ view: UIView) {
+        public static func centerViewInSuperview(_ view: UIView) {
             assert(view.superview != nil, "`view` should have a superview")
             
             view.translatesAutoresizingMaskIntoConstraints = false
             
-            let constraintH = NSLayoutConstraint(item: view,
-                attribute: NSLayoutAttribute.centerX,
-                relatedBy: NSLayoutRelation.equal,
+            let constraintH = NSLayoutConstraint(
+                item: view,
+                attribute: NSLayoutConstraint.Attribute.centerX,
+                relatedBy: NSLayoutConstraint.Relation.equal,
                 toItem: view.superview,
-                attribute: NSLayoutAttribute.centerX,
+                attribute: NSLayoutConstraint.Attribute.centerX,
                 multiplier: 1,
-                constant: 0)
-            let constraintV = NSLayoutConstraint(item: view,
-                attribute: NSLayoutAttribute.centerY,
-                relatedBy: NSLayoutRelation.equal,
+                constant: 0
+            )
+            let constraintV = NSLayoutConstraint(
+                item: view,
+                attribute: NSLayoutConstraint.Attribute.centerY,
+                relatedBy: NSLayoutConstraint.Relation.equal,
                 toItem: view.superview,
-                attribute: NSLayoutAttribute.centerY,
+                attribute: NSLayoutConstraint.Attribute.centerY,
                 multiplier: 1,
-                constant: 0)
-            let constraintWidth = NSLayoutConstraint(item: view,
-                attribute: NSLayoutAttribute.width,
-                relatedBy: NSLayoutRelation.equal,
+                constant: 0
+            )
+            let constraintWidth = NSLayoutConstraint(
+                item: view,
+                attribute: NSLayoutConstraint.Attribute.width,
+                relatedBy: NSLayoutConstraint.Relation.equal,
                 toItem: nil,
-                attribute: NSLayoutAttribute.notAnAttribute,
+                attribute: NSLayoutConstraint.Attribute.notAnAttribute,
                 multiplier: 1,
-                constant: view.frame.size.width)
-            let constraintHeight = NSLayoutConstraint(item: view,
-                attribute: NSLayoutAttribute.height,
-                relatedBy: NSLayoutRelation.equal,
+                constant: view.frame.size.width
+            )
+            let constraintHeight = NSLayoutConstraint(
+                item: view,
+                attribute: NSLayoutConstraint.Attribute.height,
+                relatedBy: NSLayoutConstraint.Relation.equal,
                 toItem: nil,
-                attribute: NSLayoutAttribute.notAnAttribute,
+                attribute: NSLayoutConstraint.Attribute.notAnAttribute,
                 multiplier: 1,
-                constant: view.frame.size.height)
+                constant: view.frame.size.height
+            )
             view.superview!.addConstraints([constraintV, constraintH, constraintWidth, constraintHeight])
         }
     }
@@ -280,7 +288,7 @@ open class SwiftOverlays: NSObject {
     // MARK: Non-blocking
     @discardableResult
     open class func showCenteredWaitOverlay(_ parentView: UIView) -> UIView {
-        let ai = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+        let ai = UIActivityIndicatorView(style: .whiteLarge)
         ai.startAnimating()
         
         let containerViewRect = CGRect(
@@ -511,13 +519,13 @@ open class SwiftOverlays: NSObject {
     
     open class func updateOverlayText(_ parentView: UIView, text: String) {
         if let overlay = parentView.viewWithTag(containerViewTag) {
-            overlay.subviews.flatMap { $0 as? UILabel }.first?.text = text
+            overlay.subviews.compactMap { $0 as? UILabel }.first?.text = text
         }
     }
     
     open class func updateOverlayProgress(_ parentView: UIView, progress: Float) {
         if let overlay = parentView.viewWithTag(containerViewTag) {
-            overlay.subviews.flatMap { $0 as? UIProgressView }.first?.progress = progress
+            overlay.subviews.compactMap { $0 as? UIProgressView }.first?.progress = progress
         }
     }
     
@@ -526,7 +534,7 @@ open class SwiftOverlays: NSObject {
     open class func showOnTopOfStatusBar(_ notificationView: UIView, duration: TimeInterval, animated: Bool = true) {
         if bannerWindow == nil {
             bannerWindow = UIWindow()
-            bannerWindow!.windowLevel = UIWindowLevelStatusBar + 1
+            bannerWindow!.windowLevel = UIWindow.Level.statusBar + 1
             bannerWindow!.backgroundColor = UIColor.clear
         }
 
@@ -628,15 +636,19 @@ open class SwiftOverlays: NSObject {
         let viewsDictionary = ["blocker": blocker]
         
         // Add constraints to handle orientation change
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-0-[blocker]-0-|",
+        let constraintsV = NSLayoutConstraint.constraints(
+            withVisualFormat: "V:|-0-[blocker]-0-|",
             options: [],
             metrics: nil,
-            views: viewsDictionary)
+            views: viewsDictionary
+        )
         
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "|-0-[blocker]-0-|",
+        let constraintsH = NSLayoutConstraint.constraints(
+            withVisualFormat: "|-0-[blocker]-0-|",
             options: [],
             metrics: nil,
-            views: viewsDictionary)
+            views: viewsDictionary
+        )
         
         window.addConstraints(constraintsV + constraintsH)
         
