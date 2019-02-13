@@ -329,7 +329,7 @@ open class SwiftOverlays: NSObject {
 
     @discardableResult
     open class func showCenteredWaitOverlayWithText(_ parentView: UIView, text: String, fontSize: CGFloat) -> UIView  {
-        let ai = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        let ai = UIActivityIndicatorView(style: .white)
     
         ai.startAnimating()
     
@@ -609,7 +609,7 @@ open class SwiftOverlays: NSObject {
     fileprivate class func labelForText(_ text: String, withFontSize size: CGFloat) -> UILabel {
         let font = UIFont.systemFont(ofSize: size)
 
-        let textSize = text.size(withAttributes: [NSAttributedStringKey.font: font])
+        let textSize = text.size(withAttributes: [NSAttributedString.Key.font: font])
         
         let labelRect = CGRect(origin: .zero, size: textSize)
 
